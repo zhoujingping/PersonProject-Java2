@@ -1,5 +1,7 @@
 
 
+
+
 import java.io.*;
 import java.util.*;
 
@@ -49,7 +51,9 @@ public class Lib {
 
 			while ((str = br.readLine()) != null) {
 
-				strArray.add(str);
+				if (!str.trim().isEmpty()) {
+					lines++;
+				} // 计算行数
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -66,12 +70,7 @@ public class Lib {
 			}
 		}
 
-		for (int i = 0; i < strArray.size(); i++) {
-			if (!strArray.get(i).trim().isEmpty()) {
-				lines++;
-			} // 计算行数
-
-		}
+		
 
 		return lines;
 
