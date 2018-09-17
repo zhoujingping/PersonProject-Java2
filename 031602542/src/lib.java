@@ -61,12 +61,14 @@ public class lib {
 	 * 从文件读取单词个数
 	 */
 	public static int wordCount(File file, String code) {
+		InputStream is = null;
+		InputStreamReader isr = null;
 		BufferedReader readFile = null;
 		String line = null;
 		int countword = 0;
 		try {
-			InputStream is = new FileInputStream(file);
-			InputStreamReader isr = new InputStreamReader(is, code);
+			is = new FileInputStream(file);
+			isr = new InputStreamReader(is, code);
 			readFile = new BufferedReader(isr);
 			while ((line = readFile.readLine()) != null) {
 				String[] words = line.split("[^a-zA-Z0-9]+");
@@ -76,13 +78,18 @@ public class lib {
 					}
 				}
 			}
-			readFile.close();
-			isr.close();
-			is.close();
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
+		} finally {
+			try {
+				readFile.close();
+				isr.close();
+				is.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		return countword;
 	}
@@ -91,22 +98,29 @@ public class lib {
 	 * 从文件中读取字符个数
 	 */
 	public static int charCount(File file, String code) {
+		InputStream is = null;
+		InputStreamReader isr = null;
 		BufferedReader readFile = null;
 		int countchar = 0;
 		try {
-			InputStream is = new FileInputStream(file);
-			InputStreamReader isr = new InputStreamReader(is, code);
+			is = new FileInputStream(file);
+			isr = new InputStreamReader(is, code);
 			readFile = new BufferedReader(isr);
 			while ((readFile.read()) != -1) {
 				countchar++;
 			}
-			readFile.close();
-			isr.close();
-			is.close();
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				readFile.close();
+				isr.close();
+				is.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		return countchar;
 	}
@@ -116,11 +130,13 @@ public class lib {
 	 */
 	public static List<Entry<String, Integer>> wordCountTopTen(File file, String code) {
 		Map<String, Integer> TheNumberOfWord = new HashMap<String, Integer>();// 每个单词的个数
+		InputStream is = null;
+		InputStreamReader isr = null;
 		BufferedReader readFile = null;
 		String line = null;
 		try {
-			InputStream is = new FileInputStream(file);
-			InputStreamReader isr = new InputStreamReader(is, code);
+			is = new FileInputStream(file);
+			isr = new InputStreamReader(is, code);
 			readFile = new BufferedReader(isr);
 			while ((line = readFile.readLine()) != null) {
 				String[] words = line.split("[^a-zA-Z0-9]+");// 以非英文字符和数字为分隔符
@@ -135,13 +151,18 @@ public class lib {
 					}
 				}
 			}
-			readFile.close();
-			isr.close();
-			is.close();
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
+		} finally {
+			try {
+				readFile.close();
+				isr.close();
+				is.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		List<Entry<String, Integer>> list = new ArrayList<Entry<String, Integer>>(TheNumberOfWord.entrySet());
 		Comparator<Entry<String, Integer>> com = new Comparator<Entry<String, Integer>>() {
