@@ -20,26 +20,39 @@ public class lib {
 	 */
 	public static int lineCount(File file, String code) {
 		BufferedReader readFile = null;
+		InputStream is = null;
+		InputStreamReader isr = null;
 		int lineCount = 0;
 		String line = null;
 		try {
-			InputStream is = new FileInputStream(file);
-			InputStreamReader isr = new InputStreamReader(is, code);
+			is = new FileInputStream(file);
+			isr = new InputStreamReader(is, code);
 			readFile = new BufferedReader(isr);
-			// readFile = new BufferedReader(new FileReader(file));
 			while ((line = readFile.readLine()) != null) {
 				if (!line.trim().equals(""))// È¥³ý¿Õ°××Ö·û
 					lineCount++;
 			}
-			readFile.close();
-			isr.close();
-			is.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (readFile != null) {
+					readFile.close();
+				}
+				if (isr != null) {
+					isr.close();
+				}
+				if (is != null) {
+					is.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return lineCount;
 	}
@@ -67,10 +80,8 @@ public class lib {
 			isr.close();
 			is.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
 		return countword;
@@ -87,18 +98,14 @@ public class lib {
 			InputStreamReader isr = new InputStreamReader(is, code);
 			readFile = new BufferedReader(isr);
 			while ((readFile.read()) != -1) {
-				// if (charTemp / (0x80) == 0) {// ÅÐ¶ÏÊÇ·ñÊôÓÚascillÂë
 				countchar++;
-				// }
 			}
 			readFile.close();
-			// isr.close();
-			// is.close();
+			isr.close();
+			is.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return countchar;
@@ -132,10 +139,8 @@ public class lib {
 			isr.close();
 			is.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
 		List<Entry<String, Integer>> list = new ArrayList<Entry<String, Integer>>(TheNumberOfWord.entrySet());
@@ -152,19 +157,11 @@ public class lib {
 			}
 		};
 		Collections.sort(list, com);
-		// int topTen = 10;
-		// List<Entry<String, Integer>> TheWordInTopTen = new ArrayList<Entry<String,
-		// Integer>>();
-		/*
-		 * TheNumberOfWord.clear(); for (Map.Entry<String, Integer> entry : list) {
-		 * TheWordInTopTen.add(entry); topTen--; if (topTen == 0) { break; } }
-		 */
 		int listSize = list.size();
 		if (10 > listSize) {
 			return list.subList(0, listSize);
 		} else {
 			return list.subList(0, 10);
 		}
-		// return TheWordInTopTen;
 	}
 }

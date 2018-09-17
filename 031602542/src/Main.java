@@ -73,7 +73,7 @@ public class Main {
 	 */
 	public static void writeInfo(int charCount, int wordCount, int lineCount,
 			List<Entry<String, Integer>> wordCountTopTen) {
-		BufferedWriter writer = null;
+		BufferedWriter writeFile = null;
 		File file = new File("result.txt");
 		try {
 			if (file.exists() && file.isFile()) {
@@ -81,28 +81,28 @@ public class Main {
 			}
 			file.createNewFile();
 
-			writer = new BufferedWriter(new FileWriter(file, true));
+			writeFile = new BufferedWriter(new FileWriter(file, true));
 			// 写入字符个数
-			writer.write("characters: " + String.valueOf(charCount));
+			writeFile.write("characters: " + String.valueOf(charCount));
 			System.out.println("characters: " + String.valueOf(charCount));
 
-			writer.newLine();
+			writeFile.newLine();
 			// 写入单词个数
-			writer.write("words: " + String.valueOf(wordCount));
+			writeFile.write("words: " + String.valueOf(wordCount));
 			System.out.println("words: " + String.valueOf(wordCount));
 
-			writer.newLine();
+			writeFile.newLine();
 			// 写入行数
-			writer.write("lines: " + String.valueOf(lineCount));
+			writeFile.write("lines: " + String.valueOf(lineCount));
 			System.out.println("lines: " + String.valueOf(lineCount));
 
 			for (Map.Entry<String, Integer> entry : wordCountTopTen) {
-				writer.newLine();
-				writer.write("<" + entry.getKey() + ">: " + entry.getValue());
+				writeFile.newLine();
+				writeFile.write("<" + entry.getKey() + ">: " + entry.getValue());
 				System.out.println("<" + entry.getKey() + ">: " + entry.getValue());
 			}
-			writer.flush();
-			writer.close();
+			writeFile.flush();
+			writeFile.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
