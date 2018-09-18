@@ -170,7 +170,7 @@ public class lib {
 			@Override
 			public int compare(Entry<String, Integer> arg0, Entry<String, Integer> arg1) {
 				// TODO Auto-generated method stub
-				if (arg0.getValue() != arg1.getValue()) {
+				if (!arg0.getValue().equals(arg1.getValue())) {
 					return (arg1.getValue().compareTo(arg0.getValue()));
 				} else {
 					return (arg0.getKey().compareTo(arg1.getKey()));
