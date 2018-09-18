@@ -1,11 +1,13 @@
 
 
-
-
 import java.io.*;
 import java.util.*;
 
 public class Lib {
+
+	static int lines = 0;// 行数
+	static int words = 0;// 单词数
+	static ArrayList<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>();// 排序好的单词列表
 
 	// 计算字符数
 
@@ -34,6 +36,64 @@ public class Lib {
 		}
 
 		return characters;
+
+	}
+
+	// 代码优化，整合计算行数、单词数和前10频率单词
+
+	public static void workOut(File f) {
+
+		BufferedReader br = null;
+		HashMap<String, Integer> hashMap = new HashMap<String, Integer>();// 用于储存单词及其个数
+		String str = null;
+		try {
+			br = new BufferedReader(new FileReader(f));
+			while ((str = br.readLine()) != null) {
+				if (!str.trim().isEmpty()) {
+					Lib.lines++;
+				}
+				String[] wordArray = str.split("\\s*[^a-zA-Z0-9]+");
+				for (String word : wordArray) {
+					if (word.matches("[a-zA-Z]{4,}[a-zA-Z0-9]*")) {
+						Lib.words++;
+						word = word.toLowerCase();
+						if (hashMap.containsKey(word)) {
+							hashMap.put(word, hashMap.get(word) + 1);// 计算单词出现次数
+						} else {
+							hashMap.put(word, 1);
+						}
+					}
+				}
+
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			try {
+				br.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		Lib.list = new ArrayList<Map.Entry<String, Integer>>(hashMap.entrySet());
+
+		// 排序
+
+		Collections.sort(Lib.list, new Comparator<Map.Entry<String, Integer>>() {
+			public int compare(Map.Entry<String, Integer> e1, Map.Entry<String, Integer> e2) {
+				int re = e2.getValue() - e1.getValue();
+				return (re == 0) ? e1.getKey().compareTo(e2.getKey()) : re;
+
+			}
+
+		});
 
 	}
 
@@ -69,8 +129,6 @@ public class Lib {
 				e.printStackTrace();
 			}
 		}
-
-		
 
 		return lines;
 
@@ -161,7 +219,7 @@ public class Lib {
 
 		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
 			public int compare(Map.Entry<String, Integer> e1, Map.Entry<String, Integer> e2) {
-				int re = e2.getValue()-e1.getValue();
+				int re = e2.getValue() - e1.getValue();
 				return (re == 0) ? e1.getKey().compareTo(e2.getKey()) : re;
 
 			}

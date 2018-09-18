@@ -1,7 +1,5 @@
 
 
-
-
 import java.io.*;
 import java.util.*;
 
@@ -18,9 +16,10 @@ public class Main {
 		File f = m.readFile(args);
 
 		m.characters = Lib.countChars(f);
-		m.lines = Lib.countLines(f);
-		m.words = Lib.countWords(f);
-		m.list = Lib.countTop10(f);
+		Lib.workOut(f);
+		m.lines = Lib.lines;
+		m.words = Lib.words;
+		m.list = Lib.list;
 
 		m.writeFile();
 
