@@ -8,7 +8,7 @@ import java.util.*;
  * 频率相同的单词，优先输出字典序靠前的单词.
  *
  * @author xyy
- * @version 1.0 2018/9/12
+ * @version 1.1 2018/9/19
  * @since 2018/9/11
  */
 public class WordsFrequencyCounter {
@@ -21,11 +21,11 @@ public class WordsFrequencyCounter {
     public static HashMap<String, Long> countWordsFrequency(String fileName) {
         InputStreamReader inputStreamReader = null;
         BufferedReader bufferedReader = null;
-        String in = null;
-        String regex = "[a-zA-Z]{4,}[a-zA-Z0-9]*";
-        String delim = " ,.!?-=*/()[]{}\\\"\\';:\\n\\r\\t“”‘’·——…（）【】｛｝\\0";
-        String word = "";
-        HashMap<String, Long> wordMap = new HashMap<String, Long>(16);
+        int in = 0;
+        char temp;
+        int state = 0;
+        StringBuilder word = new StringBuilder();
+        HashMap<String, Long> wordMap = new HashMap<String, Long>(100 * 1024 * 1024);
 
         //读入文件
         try {
@@ -39,20 +39,73 @@ public class WordsFrequencyCounter {
         }
         //计算单词词频
         try {
-            while ((in = bufferedReader.readLine()) != null) {
-                in = in.toLowerCase();
-                //根据分隔符分割
-                StringTokenizer tokenizer = new StringTokenizer(in, delim);
-                while (tokenizer.hasMoreTokens()) {
-                    word = tokenizer.nextToken();
-                    //匹配单词
-                    if (word.matches(regex)) {
-                        if (wordMap.get(word) != null) {
-                            wordMap.put(word, wordMap.get(word) + 1);
-                        } else {
-                            wordMap.put(word, 1L);
+            while ((in = bufferedReader.read()) != -1) {
+                //大写字母转为小写字母
+                temp = (char) in;
+                if ((temp >= 65) && (temp <= 90)) {
+                    temp += 32;
+                }
+
+                //自动机状态转移
+                switch (state) {
+                    case 0: {
+                        if ((temp >= 97) && (temp <= 122)) {
+                            word.append(temp);
+                            state = 1;
                         }
+                        break;
                     }
+                    case 1: {
+                        if ((temp >= 97) && (temp <= 122)) {
+                            word.append(temp);
+                            state = 2;
+                        } else {
+                            word.setLength(0);
+                            state = 0;
+                        }
+                        break;
+                    }
+                    case 2: {
+                        if ((temp >= 97) && (temp <= 122)) {
+                            word.append(temp);
+                            state = 3;
+                        } else {
+                            word.setLength(0);
+                            state = 0;
+                        }
+                        break;
+                    }
+                    case 3: {
+                        if ((temp >= 97) && (temp <= 122)) {
+                            word.append(temp);
+                            state = 4;
+                        } else {
+                            word.setLength(0);
+                            state = 0;
+                        }
+                        break;
+                    }
+                    case 4: {
+                        if (((temp >= 97) && (temp <= 122)) || ((temp >= '0') && (temp <= '9'))) {
+                            word.append(temp);
+                        } else {
+                            if (wordMap.containsKey(word.toString())) {
+                                wordMap.put(word.toString(), wordMap.get(word.toString()) + 1L);
+                            } else {
+                                wordMap.put(word.toString(), 1L);
+                            }
+                            word.setLength(0);
+                            state = 0;
+                        }
+                        break;
+                    }
+                }
+            }
+            if (state == 4) {
+                if (wordMap.containsKey(word.toString())) {
+                    wordMap.put(word.toString(), wordMap.get(word.toString()) + 1L);
+                } else {
+                    wordMap.put(word.toString(), 1L);
                 }
             }
         } catch (IOException e) {
@@ -74,8 +127,14 @@ public class WordsFrequencyCounter {
      * @return 频率最高的10个单词
      */
     public static ArrayList<HashMap.Entry<String, Long>> topTenFrequentWords(HashMap<String, Long> wordMap) {
+        //将Map转换为ArrayList
         ArrayList<HashMap.Entry<String, Long>> wordList =
                 new ArrayList<HashMap.Entry<String, Long>>(wordMap.entrySet());
+        sort(wordList);
+        return wordList;
+    }
+
+    private static void sort(ArrayList<HashMap.Entry<String, Long>> wordList) {
         Collections.sort(wordList, new Comparator<HashMap.Entry<String, Long>>() {
             public int compare(Map.Entry<String, Long> o1, Map.Entry<String, Long> o2) {
                 if (o1.getValue() < o2.getValue()) {
@@ -93,6 +152,5 @@ public class WordsFrequencyCounter {
                 }
             }
         });
-        return wordList;
     }
 }

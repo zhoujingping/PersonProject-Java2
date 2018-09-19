@@ -15,13 +15,13 @@ public class LineCounterTest {
     //测试空白行数
     public void lineCounterTest2() {
         long lineNum = LineCounter.countLine("emptyLineTest.txt");
-        assertEquals(3, lineNum);
+        assertEquals(0, lineNum);
     }
 
     @Test
     //测试混合行数
     public void lineCounterTest3() {
         long lineNum = LineCounter.countLine("mixLineTest.txt");
-        assertEquals(6, lineNum);
+        assertEquals(3, lineNum);
     }
 }

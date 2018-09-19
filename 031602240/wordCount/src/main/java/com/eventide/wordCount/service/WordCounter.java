@@ -1,14 +1,13 @@
 package com.eventide.wordCount.service;
 
 import java.io.*;
-import java.util.StringTokenizer;
 
 /**
  * 单词计数器，包括计算文件内单词总数.
  * 单词：至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割，不区分大小写.
  *
  * @author xyy
- * @version 1.0 2018/9/11
+ * @version 1.1 2018/9/19
  * @since 2018/9/11
  */
 public class WordCounter {
@@ -21,10 +20,10 @@ public class WordCounter {
     public static long countWord(String fileName) {
         InputStreamReader inputStreamReader = null;
         BufferedReader bufferedReader = null;
-        String in = null;
+        int in = 0;
         long wordNum = 0;
-        String regex = "[a-zA-Z]{4,}[a-zA-Z0-9]*";
-        String delim = " ,.!?-=*/()[]{}\\\"\\';:\\n\\r\\t“”‘’·——…（）【】｛｝\\0";
+        char temp;
+        int state = 0;
 
         //读入文件
         try {
@@ -38,16 +37,56 @@ public class WordCounter {
         }
         //计算单词数
         try {
-            while ((in = bufferedReader.readLine()) != null) {
-                in = in.toLowerCase();
+            while ((in = bufferedReader.read()) != -1) {
                 //根据分隔符分割
-                StringTokenizer tokenizer = new StringTokenizer(in, delim);
-                while (tokenizer.hasMoreTokens()) {
-                    if (tokenizer.nextToken().matches(regex)) {
-                        wordNum++;
-                    }
+                temp = (char) in;
+                if ((temp >= 65) && (temp <= 90)) {
+                    temp += 32;
                 }
 
+                //自动机状态转移
+                switch (state) {
+                    case 0: {
+                        if ((temp >= 97) && (temp <= 122)) {
+                            state = 1;
+                        }
+                        break;
+                    }
+                    case 1: {
+                        if ((temp >= 97) && (temp <= 122)) {
+                            state = 2;
+                        } else {
+                            state = 0;
+                        }
+                        break;
+                    }
+                    case 2: {
+                        if ((temp >= 97) && (temp <= 122)) {
+                            state = 3;
+                        } else {
+                            state = 0;
+                        }
+                        break;
+                    }
+                    case 3: {
+                        if ((temp >= 97) && (temp <= 122)) {
+                            state = 4;
+                        } else {
+                            state = 0;
+                        }
+                        break;
+                    }
+                    case 4: {
+                        if (!((temp >= 97) && (temp <= 122)) || ((temp >= '0') && (temp <= '9'))) {
+                            wordNum++;
+                            state = 0;
+                        }
+                        break;
+                    }
+                }
+            }
+            if (state == 4) {
+                wordNum++;
             }
         } catch (IOException e) {
             e.printStackTrace();

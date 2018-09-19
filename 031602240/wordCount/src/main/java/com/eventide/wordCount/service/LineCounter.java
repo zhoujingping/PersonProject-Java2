@@ -35,7 +35,7 @@ public class LineCounter {
         //计算行数
         try {
             while ((in = bufferedReader.readLine()) != null) {
-                lineNum++;
+                if (!in.equals("")) lineNum++;
             }
         } catch (IOException e) {
             e.printStackTrace();
