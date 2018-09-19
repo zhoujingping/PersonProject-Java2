@@ -29,7 +29,7 @@ public class WordCounter {
         try {
             inputStreamReader = new InputStreamReader(new FileInputStream(fileName));
         } catch (FileNotFoundException e) {
-            System.out.println("找不到此文件");
+            System.out.println("WordCounter找不到此文件");
             e.printStackTrace();
         }
         if (inputStreamReader != null) {

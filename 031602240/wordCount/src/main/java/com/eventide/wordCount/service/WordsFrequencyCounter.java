@@ -31,7 +31,7 @@ public class WordsFrequencyCounter {
         try {
             inputStreamReader = new InputStreamReader(new FileInputStream(fileName));
         } catch (FileNotFoundException e) {
-            System.out.println("找不到此文件");
+            System.out.println("WordsFrequencyCounter找不到此文件");
             e.printStackTrace();
         }
         if (inputStreamReader != null) {
