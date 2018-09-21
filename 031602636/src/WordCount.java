@@ -25,4 +25,11 @@ public interface WordCount {
 	 * @throws IOException
 	 */
 	int charsCount(String filepath) throws IOException;
+	
+	/**
+	 * 词频前十的单词
+	 * @param filepath
+	 * @throws IOException
+	 */
+	void wordDetail(String filepath) throws IOException;
 }

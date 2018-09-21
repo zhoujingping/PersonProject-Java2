@@ -2,6 +2,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class lib implements WordCount{
 
@@ -68,6 +73,45 @@ public class lib implements WordCount{
 			System.out.println(e.getMessage());
 		}
 		return charcount;
+	}
+
+	@Override
+	public void wordDetail(String filepath) throws IOException {
+		String buffer;
+		Map<String,Integer> map=new HashMap<String,Integer>();
+		try {
+			FileReader fileReader = new FileReader(filepath);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+			while((buffer=bufferedReader.readLine())!=null){
+				String[] words = buffer.split("[^a-zA-Z0-9]+");
+				for (String word : words) {
+					word.toLowerCase();
+					if (word.matches("[a-zA-Z]{4}[a-zA-Z0-9]*") ) {
+						if(map.containsKey(word)) 
+							map.put(word, map.get(word)+1);
+						else map.put(word, 1);
+					}
+				}
+			}
+			Set<WordEntity> set=new TreeSet<WordEntity>();
+			for(String s:map.keySet()){
+				WordEntity wordEntry=new WordEntity(s,map.get(s));
+				set.add(wordEntry);     
+			}
+			Iterator<WordEntity>  ite=set.iterator();
+			int count=0;
+			while(ite.hasNext()){
+				if(count>=10) 
+					break;
+				System.out.println(ite.next());
+				count++;
+			}
+			bufferedReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 }

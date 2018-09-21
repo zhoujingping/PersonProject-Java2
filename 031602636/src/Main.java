@@ -25,6 +25,7 @@ public class Main {
 			writeInTxt.writeTxt("characters: " + charscount);
 			writeInTxt.writeTxt("words: " + wordscount);
 			writeInTxt.writeTxt("lines: " + linescount);
+			count.wordDetail(path);
 		//	System.out.println(linescount);
 		//	System.out.println(wordscount);
 		}
