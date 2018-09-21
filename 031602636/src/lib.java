@@ -62,9 +62,9 @@ public class lib implements WordCount{
 			FileReader fileReader = new FileReader(filepath);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             while((value = bufferedReader.read()) != -1) {
-				if (value >= 0 && value<=255) {
+			//	if (value >= 0 && value<=255) {
 					charcount++;
-				}
+			//	}
 			}
 			bufferedReader.close();
 		} catch (FileNotFoundException e) {
