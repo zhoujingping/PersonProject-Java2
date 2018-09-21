@@ -21,8 +21,10 @@ public class Main {
 			WordCount count = new lib();
 			int linescount = count.linesCount(path);
 			int wordscount = count.wordsCount(path);
-			System.out.println(linescount);
-			System.out.println(wordscount);
+			writeInTxt.writeTxt("words:" + wordscount);
+			writeInTxt.writeTxt("lines:" + linescount);
+		//	System.out.println(linescount);
+		//	System.out.println(wordscount);
 		}
 		scanner.close();
 	}
