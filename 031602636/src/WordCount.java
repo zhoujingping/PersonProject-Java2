@@ -17,4 +17,12 @@ public interface WordCount {
 	 * @throws IOException
 	 */
 	int wordsCount(String filepath) throws IOException;
+	
+	/**
+	 * ·µ»Ø×Ö·ûÊý
+	 * @param filepath
+	 * @return
+	 * @throws IOException
+	 */
+	int charsCount(String filepath) throws IOException;
 }

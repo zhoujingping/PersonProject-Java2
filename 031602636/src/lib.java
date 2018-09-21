@@ -7,7 +7,6 @@ public class lib implements WordCount{
 
 	@Override
 	public int linesCount(String filepath) throws IOException {
-		// TODO Auto-generated method stub
 		int linecount = 0;
 		try {
 			FileReader fileReader = new FileReader(filepath);
@@ -27,7 +26,6 @@ public class lib implements WordCount{
 
 	@Override
 	public int wordsCount(String filepath) throws IOException {
-		// TODO Auto-generated method stub
 		String line = null;
 		int countword = 0;
 		try {
@@ -37,7 +35,6 @@ public class lib implements WordCount{
 				String[] words = line.split("[^a-zA-Z0-9]+");
 				for (String word : words) {
 					word.toLowerCase();
-					System.out.println(word);
 					if (word.matches("[a-zA-Z]{4}[a-zA-Z0-9]*") ) {
 						countword++;
 					}
@@ -50,6 +47,27 @@ public class lib implements WordCount{
 			System.out.println(e.getMessage());
 		}
 		return countword;
+	}
+
+	@Override
+	public int charsCount(String filepath) throws IOException {
+		int value;
+		int charcount = 0;
+		try {
+			FileReader fileReader = new FileReader(filepath);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            while((value = bufferedReader.read()) != -1) {
+				if (value >= 0 && value<=255) {
+					charcount++;
+				}
+			}
+			bufferedReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+		return charcount;
 	}
 	
 }
