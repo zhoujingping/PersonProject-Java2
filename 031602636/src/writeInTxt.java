@@ -8,12 +8,8 @@ public class writeInTxt {
 	public static void writeTxt(String str) {
 		FileWriter fileWriter = null;
 		try {
-			
 			//如果文件存在，则追加内容；如果文件不存在，则创建文件
 			File file = new File(".\\result.txt");
-			if (file.exists() && file.isFile()) {
-				file.delete();
-			}
 			file.createNewFile();
 			fileWriter = new FileWriter(file,true);
 		}catch (IOException e) {
