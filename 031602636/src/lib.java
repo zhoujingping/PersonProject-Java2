@@ -39,7 +39,7 @@ public class lib implements WordCount{
 			while ((line = bufferedReader.readLine()) != null) {
 				String[] words = line.split("[^a-zA-Z0-9]+");
 				for (String word : words) {
-					word.toLowerCase();
+					word = word.toLowerCase();
 					if (word.matches("[a-zA-Z]{4}[a-zA-Z0-9]*") ) {
 						countword++;
 					}
@@ -85,7 +85,7 @@ public class lib implements WordCount{
 			while((buffer=bufferedReader.readLine())!=null){
 				String[] words = buffer.split("[^a-zA-Z0-9]+");
 				for (String word : words) {
-					word.toLowerCase();
+					word = word.toLowerCase();
 					if (word.matches("[a-zA-Z]{4}[a-zA-Z0-9]*") ) {
 						if(map.containsKey(word)) 
 							map.put(word, map.get(word)+1);
