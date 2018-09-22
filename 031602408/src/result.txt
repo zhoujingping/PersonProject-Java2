@@ -1,0 +1,4 @@
+characters: 41
+words: 2
+lines: 7
+<dddd>: 2
